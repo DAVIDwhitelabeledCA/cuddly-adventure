@@ -1,0 +1,876 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VPACPlus & Joe’s Specialty Pharmacy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --vpac-navy: #004a7a;
+      --vpac-blue: #006ea8;
+      --vpac-teal: #00a3a3;
+      --vpac-green: #00a676;
+      --vpac-light: #f5f8fb;
+      --vpac-mid: #e3edf6;
+      --vpac-text-dark: #123041;
+      --vpac-text-muted: #5b7284;
+      --vpac-accent-orange: #f7941d;
+      --vpac-border: #d2dde8;
+      --shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.14);
+      --radius-card: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: var(--vpac-text-dark);
+      background: var(--vpac-light);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top gradient header */
+
+    header {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.18) 0, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(0, 163, 163, 0.4) 0, transparent 55%),
+        linear-gradient(135deg, var(--vpac-navy), var(--vpac-blue));
+      color: white;
+      padding: 1.25rem 1.5rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.12) 0, transparent 45%),
+                        radial-gradient(circle at 80% 120%, rgba(0, 163, 163, 0.35) 0, transparent 55%);
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .header-inner {
+      position: relative;
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      z-index: 1;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .brand-badge {
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      font-size: 0.75rem;
+    }
+
+    .nav {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    .nav a {
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+      opacity: 0.85;
+    }
+
+    .nav a:hover,
+    .nav a:focus-visible {
+      border-bottom-color: rgba(255, 255, 255, 0.9);
+      opacity: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.6fr);
+      gap: 2.75rem;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 0.75rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      font-weight: 500;
+      opacity: 0.9;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-highlight {
+      color: #7cf5e8;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-card);
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+      backdrop-filter: blur(22px);
+    }
+
+    .hero-card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.5rem;
+      color: #e3f8ff;
+    }
+
+    .hero-card-body {
+      font-size: 0.92rem;
+      opacity: 0.95;
+    }
+
+    .logos-row {
+      margin-top: 1.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .logo-placeholder {
+      width: 150px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Main layout */
+
+    main {
+      flex: 1;
+      padding: 0 1.5rem 3rem;
+    }
+
+    .section {
+      max-width: 1120px;
+      margin: -2.5rem auto 2.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section + .section {
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--radius-card);
+      padding: 2.25rem 2.5rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--vpac-border);
+    }
+
+    .card--soft {
+      background: linear-gradient(135deg, #fafdff, #eef6fb);
+      border-color: rgba(210, 221, 232, 0.6);
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      margin: 0 0 0.35rem;
+    }
+
+    .section-kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--vpac-teal);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .section-lead {
+      font-size: 0.96rem;
+      color: var(--vpac-text-muted);
+      margin-bottom: 1.5rem;
+      max-width: 44rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+    }
+
+    h3 {
+      font-size: 1.02rem;
+      margin-top: 0;
+      margin-bottom: 0.35rem;
+    }
+
+    h4 {
+      font-size: 0.96rem;
+      margin-bottom: 0.35rem;
+    }
+
+    ul {
+      padding-left: 1.1rem;
+      margin: 0.25rem 0 0.9rem;
+    }
+
+    li {
+      margin-bottom: 0.2rem;
+      font-size: 0.94rem;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      background: rgba(0, 163, 163, 0.08);
+      color: var(--vpac-teal);
+      border: 1px solid rgba(0, 163, 163, 0.25);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Water challenge */
+
+    .water-section {
+      background: linear-gradient(135deg, #ffffff, #f2fbff);
+      border-radius: var(--radius-card);
+      padding: 2.1rem 2.1rem 2.3rem;
+      border: 1px solid rgba(0, 110, 168, 0.18);
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 2.3fr);
+      gap: 2rem;
+    }
+
+    .water-title {
+      font-size: 1.2rem;
+      margin-top: 0;
+      color: var(--vpac-blue);
+    }
+
+    .goal-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0.4rem 0 1.1rem;
+    }
+
+    .goal-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--vpac-text-muted);
+      font-size: 0.78rem;
+    }
+
+    .goal-count {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--vpac-accent-orange);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.4rem;
+      font-size: 0.75rem;
+    }
+
+    .day-col {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 110, 168, 0.15);
+      padding: 0.5rem 0.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .day-label {
+      font-weight: 700;
+      margin-bottom: 0.1rem;
+      color: var(--vpac-blue);
+    }
+
+    .drops-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.12rem;
+    }
+
+    .drop {
+      width: 10px;
+      height: 14px;
+      border-radius: 10px 10px 14px 14px;
+      background: linear-gradient(180deg, #a5ddff, #32a3ff);
+      opacity: 0.55;
+    }
+
+    .qr-box {
+      border-radius: 18px;
+      background: white;
+      border: 1px dashed rgba(0, 110, 168, 0.3);
+      padding: 0.9rem 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    .qr-label-strong {
+      font-weight: 700;
+      color: var(--vpac-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.72rem;
+    }
+
+    .qr-placeholder {
+      width: 84px;
+      height: 84px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.18);
+      margin: 0.75rem auto 0.45rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--vpac-text-muted);
+    }
+
+    /* Contact */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+      font-size: 0.92rem;
+    }
+
+    .contact-card {
+      border-radius: 18px;
+      border: 1px solid var(--vpac-border);
+      padding: 1.5rem 1.6rem;
+      background: linear-gradient(135deg, #fafdff, #eef6fb);
+    }
+
+    .contact-name {
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-meta {
+      font-size: 0.86rem;
+      color: var(--vpac-text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-label {
+      font-weight: 600;
+      font-size: 0.85rem;
+      min-width: 120px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(210, 221, 232, 0.7);
+      padding: 1.2rem 1.5rem 2rem;
+      background: #f3f7fb;
+      font-size: 0.8rem;
+      color: var(--vpac-text-muted);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 860px) {
+      header {
+        padding-bottom: 2.5rem;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-card {
+        order: -1;
+      }
+
+      .section {
+        margin-top: -1.5rem;
+      }
+
+      .card,
+      .water-section {
+        padding: 1.6rem 1.4rem 1.7rem;
+        border-radius: 16px;
+      }
+
+      .grid-2,
+      .contact-grid,
+      .water-section {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .nav {
+        display: none;
+      }
+
+      header {
+        padding-inline: 1rem;
+      }
+
+      main {
+        padding-inline: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="header-inner">
+      <div class="top-bar">
+        <div class="brand-lockup">
+          <span class="brand-badge">VPACPlus</span>
+          <span>Vital Path Addiction Clinic</span>
+        </div>
+        <nav class="nav">
+          <a href="#client-support">Client Support</a>
+          <a href="#program-partners">For Programs</a>
+          <a href="#water-challenge">Water Challenge</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+
+      <div class="hero">
+        <div>
+          <p class="hero-subtitle">CLIENT Support</p>
+          <h1 class="hero-title">
+            Your Health.<br />
+            Your Recovery.<br />
+            Your Support Team.
+          </h1>
+          <p class="hero-highlight">
+            Integrated medical, mental health, and medication support designed for people in recovery.
+          </p>
+          <p class="hero-subtitle" style="opacity:0.95;">
+            Trusted care. Coordinated support. Focused on your healing.
+          </p>
+          <div class="hero-meta">
+            <span>Access to doctors, nurse practitioners &amp; mental health specialists</span>
+            <span>&bull;</span>
+            <span>Onsite nursing &amp; integrated pharmacy support</span>
+          </div>
+          <div class="logos-row">
+            <div class="logo-placeholder">VPACPlus Logo</div>
+            <div class="logo-placeholder">Joe’s Specialty Pharmacy</div>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="At-a-glance support">
+          <div class="hero-card-title">Your Recovery Matters</div>
+          <div class="hero-card-body">
+            We work closely with your treatment program so your medical and mental health needs are met without
+            unnecessary delays or confusion. Our team is here to support your health, your stability, and your
+            progress – today and beyond.
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Client Support -->
+    <section id="client-support" class="section">
+      <div class="card card--soft">
+        <div class="section-kicker">Client Support</div>
+        <h2 class="section-title">Care Designed for Your Recovery</h2>
+        <p class="section-lead">
+          VPACPlus and Joe’s Specialty Pharmacy communicate closely with your counsellors, case managers,
+          and program staff to help ensure fewer gaps in care, safer medication use, and smoother transitions
+          during discharge and aftercare.
+        </p>
+
+        <div class="grid-2">
+          <div>
+            <h3>Access to Medical &amp; Mental Health Providers</h3>
+            <ul>
+              <li>Regular access to doctors, nurse practitioners, and mental health specialists</li>
+              <li>Support with ongoing medical needs, prescriptions, and follow-up care</li>
+              <li>Urgent appointments available when you need them</li>
+            </ul>
+
+            <h3>Mental Health Support</h3>
+            <ul>
+              <li>Psychiatric evaluations</li>
+              <li>Medication management</li>
+              <li>ADHD assessments</li>
+              <li>Coordination with therapists and counsellors</li>
+            </ul>
+
+            <h3>Primary Care Services</h3>
+            <ul>
+              <li>Prescription refills</li>
+              <li>Lab testing and results</li>
+              <li>STI testing</li>
+              <li>Medical forms and documentation</li>
+              <li>Urine drug screening when required</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Onsite Nursing Support</h3>
+            <p>
+              Our nursing team may be available directly at your home or facility to provide:
+            </p>
+            <ul>
+              <li>Vital signs monitoring</li>
+              <li>Diabetes and insulin management</li>
+              <li>Wound care</li>
+              <li>
+                Injections such as:
+                <ul>
+                  <li>Sublocade</li>
+                  <li>Long-acting mental health medications</li>
+                </ul>
+              </li>
+            </ul>
+
+            <h3>Our Focus: Addiction Recovery</h3>
+            <p>
+              Joe’s Specialty Pharmacy focuses only on addiction recovery and mental health care. That means:
+            </p>
+            <ul>
+              <li>Accurate, reliable medication delivery</li>
+              <li>Clearly organized packaging to help you stay on track</li>
+              <li>Pharmacists who understand recovery and treat you with respect</li>
+              <li>Confidential, compassionate care</li>
+            </ul>
+
+            <p>
+              Medications are delivered safely and managed in coordination with your care team so you can focus on
+              healing — not logistics.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Corporate / Program Partners -->
+    <section id="program-partners" class="section">
+      <div class="card">
+        <div class="section-kicker">Corporate Partnership</div>
+        <h2 class="section-title">Comprehensive Clinic + Pharmacy Offering</h2>
+        <p class="section-lead">
+          Our multidisciplinary clinic model is built specifically for addiction treatment and mental health programs,
+          providing streamlined medical access, consistent clinical oversight, and dependable support for both staff
+          and residents. We don’t just support treatment — we become part of your team.
+        </p>
+
+        <div class="grid-2">
+          <div>
+            <span class="badge-pill">Medical &amp; Clinical Services</span>
+            <h3>Access to Providers</h3>
+            <ul>
+              <li>Five days a week access to general and specialty medical providers, with emergency availability</li>
+              <li>Simple, efficient scheduling for intakes, renewals, and ongoing primary care</li>
+            </ul>
+
+            <h3>Multidisciplinary Care Team</h3>
+            <ul>
+              <li>Addiction medicine physicians</li>
+              <li>Nurse practitioners</li>
+              <li>Psychiatrists &amp; psychologists</li>
+              <li>Registered nurses</li>
+            </ul>
+
+            <h3>Medical &amp; Behavioral Health Services</h3>
+            <ul>
+              <li>Rapid intake and priority scheduling</li>
+              <li>Comprehensive mental health assessments &amp; ADHD evaluations</li>
+              <li>Emergency detoxification management (as clinically appropriate)</li>
+              <li>
+                General medical services, including prescription refills, lab testing and results review, STI testing,
+                medical forms and letters, and point-of-care urine testing
+              </li>
+              <li>Urgent care access with physician appointments available within 24 hours</li>
+            </ul>
+          </div>
+
+          <div>
+            <span class="badge-pill">Pharmacy &amp; Medication Services</span>
+            <h3>Specialized Pharmacy Support</h3>
+            <ul>
+              <li>Dedicated pharmacists focused exclusively on addiction treatment and mental health homes</li>
+              <li>Open seven days a week with reliable daily medication delivery</li>
+              <li>Seasonal vaccination services</li>
+              <li>OAT-certified pharmacists</li>
+            </ul>
+
+            <h3>Customized Medication Management &amp; Compliance Packaging</h3>
+            <ul>
+              <li>Automated compliance packaging (PACMED) to reduce medication errors</li>
+              <li>Safe, structured medication management systems</li>
+              <li>Medication storage solutions aligned with licensing and regulatory standards</li>
+              <li>Provision of Medication Administration Records (MARs) for accurate documentation</li>
+              <li>Privacy-focused, compassionate patient care</li>
+            </ul>
+
+            <h3>Collaboration &amp; Staff Support</h3>
+            <ul>
+              <li>Seamless coordination between prescribers, pharmacy teams, and facility leadership</li>
+              <li>Customized onsite staff training and support</li>
+              <li>Guidance on MAR documentation, medication administration, intake and discharge processes, and patient education</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Water Challenge -->
+    <section id="water-challenge" class="section">
+      <div class="water-section">
+        <div>
+          <div class="section-kicker">Hydration Challenge</div>
+          <h2 class="water-title">Water Consumption Calendar</h2>
+          <p class="section-lead" style="margin-bottom:0.9rem;">
+            Colour in one water drop for every glass of water you drink each day. Staying hydrated supports your
+            physical health, mental clarity, and recovery.
+          </p>
+
+          <div class="goal-row">
+            <span class="goal-label">Goal</span>
+            <span class="goal-count">8 glasses a day</span>
+          </div>
+
+          <p style="font-size:0.9rem; color:var(--vpac-text-muted);">
+            Use this calendar with your counsellor, nurse, or support team to keep hydration on track throughout
+            your program.
+          </p>
+
+          <div class="qr-box">
+            <div class="qr-label-strong">Scan Me</div>
+            <div class="qr-placeholder">
+              QR Code
+            </div>
+            <div>Download &amp; print a copy of the Water Consumption Calendar.</div>
+          </div>
+        </div>
+
+        <div aria-label="Weekly water tracking example">
+          <div class="calendar-grid">
+            <!-- Days -->
+            <div class="day-col">
+              <div class="day-label">SUN</div>
+              <div class="drops-row">
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span>
+              </div>
+            </div>
+            <div class="day-col">
+              <div class="day-label">MON</div>
+              <div class="drops-row">
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span>
+              </div>
+            </div>
+            <div class="day-col">
+              <div class="day-label">TUE</div>
+              <div class="drops-row">
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span>
+              </div>
+            </div>
+            <div class="day-col">
+              <div class="day-label">WED</div>
+              <div class="drops-row">
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span>
+              </div>
+            </div>
+            <div class="day-col">
+              <div class="day-label">THU</div>
+              <div class="drops-row">
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span>
+              </div>
+            </div>
+            <div class="day-col">
+              <div class="day-label">FRI</div>
+              <div class="drops-row">
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span>
+              </div>
+            </div>
+            <div class="day-col">
+              <div class="day-label">SAT</div>
+              <div class="drops-row">
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+                <span class="drop"></span><span class="drop"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <div class="card">
+        <div class="section-kicker">Contact</div>
+        <h2 class="section-title">Questions About Your Care?</h2>
+        <p class="section-lead">
+          VPACPlus and Joe’s Specialty Pharmacy work as part of your support team — helping you stay healthy,
+          stable, and focused on recovery.
+        </p>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-name">Vital Path Addiction Clinic</div>
+            <div class="contact-meta">VPACPlus &mdash; Medical Support for Lasting Recovery</div>
+            <div class="contact-item">
+              <span class="contact-label">General Inquiries</span>
+              <span>778-488-9665</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Appointment via Text</span>
+              <span>778-488-9665</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Email</span>
+              <span><a href="mailto:vpac@twcrecoverylife.org">vpac@twcrecoverylife.org</a></span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Hours of Operation</span>
+              <span>Monday to Friday &nbsp; 7:30am – 3:30pm<br />Afterhours &amp; On-Call Doctors Available (some conditions apply)</span>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-name">Joe’s Specialty Pharmacy</div>
+            <div class="contact-meta">Integrated pharmacy support for addiction recovery and mental health care.</div>
+            <div class="contact-item">
+              <span class="contact-label">General Inquiries</span>
+              <span>604-924-8686</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Email</span>
+              <span><a href="mailto:pharmacy@twcrecoverylife.org">pharmacy@twcrecoverylife.org</a></span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Hours of Operation</span>
+              <span>
+                Monday to Friday &nbsp; 7:30am – 4:30pm<br />
+                Saturday &amp; Sunday &nbsp; 9:30am – 1:30pm<br />
+                Statutory Holidays &nbsp; 9:30am – 11:30am
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>&copy; <!-- Update year dynamically if you add JS --> VPACPlus &amp; Joe’s Specialty Pharmacy.</span>
+      <span>All services are confidential and coordinated with your treatment program.</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
